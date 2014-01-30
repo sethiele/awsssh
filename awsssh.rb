@@ -14,4 +14,10 @@ if host.nil?
   exit -1
 end
 
-exec "ssh #{host}"
+if host.match /^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/
+  host_ip = host.split(".")
+  host_name = "ec2-#{host_ip[0]}-#{host_ip[1]}-#{host_ip[2]}-#{host_ip[3]}.eu-west-1.compute.amazonaws.com"
+  exec "ssh #{host_name}"
+else
+  exec "ssh #{host}"
+end  
