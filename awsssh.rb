@@ -1,23 +1,43 @@
 #!/usr/bin/env ruby
 require 'rubygems'
 require 'net/ssh'
+require 'yaml'
+require 'json'
 
 if ARGV[0].nil?
   puts "Host nicht angegeben."
   exit -1
 end
 
-host = Net::SSH::Config.for(ARGV[0])[:host_name]
-if host.nil?
+host = ARGV[0].split("-")
 
-  puts "Host nicht bekannt."
+begin
+  config = YAML.load_file(File.dirname(__FILE__) + '/config.yml')
+rescue Errno::ENOENT
+  puts "Configurationsdatei 'config.yml' nicht gefunden"
   exit -1
 end
 
-if host.match /^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/
-  host_ip = host.split(".")
-  host_name = "ec2-#{host_ip[0]}-#{host_ip[1]}-#{host_ip[2]}-#{host_ip[3]}.eu-west-1.compute.amazonaws.com"
-  exec "ssh #{host_name}"
-else
-  exec "ssh #{host}"
-end  
+puts "changing awscfg to #{host[0]}"
+`awscfg #{host[0]}`
+
+puts "waiting for stacks settigs"
+stack_settings = JSON.parse(`aws opsworks describe-instances --stack-id #{config[host[0]][host[1]]}`)
+#puts stack_settings
+
+public_dns = nil
+stack_settings["Instances"].each do |i|
+  #puts i
+  if i["Hostname"] == ARGV[0]
+    public_dns = i["PublicDns"]
+    break
+  end
+end
+
+if public_dns.nil?
+  puts "Host '#{ARGV[0]}' nicht gefunden."
+  exit -1
+end
+
+puts "Verbinde mit #{ARGV[0]} (#{public_dns})"
+exec "ssh #{public_dns}"

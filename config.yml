@@ -1,0 +1,15 @@
+nue:
+  cms: bbf4bd43-a3d5-450a-a489-15bc14df4a9b
+  # Falsche Namenskonvention
+  live1: cbcbcd0b-3d90-4187-873c-733f068e8511
+  live2: cbcbcd0b-3d90-4187-873c-733f068e8511
+nueairpart4agents:
+  live: 6c27f83a-ce6a-4ef6-a2b0-3b5c2260b7e0
+  # Falsche Namenskonvention
+  staging1: 70d08760-9fb7-4421-8346-2ee5ed775f06
+sihl:
+  live: nill
+  staging: nill
+trox:
+  staging: 09eeff30-3bbb-4771-9dba-b12c603a515b
+  live: d27d816c-e1a4-419b-a333-6f77eb66dc5b
