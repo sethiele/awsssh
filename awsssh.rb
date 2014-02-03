@@ -4,6 +4,7 @@ require 'net/ssh'
 require 'yaml'
 require 'json'
 
+
 if ARGV[0].nil?
   puts "Host nicht angegeben."
   exit -1
@@ -12,7 +13,9 @@ end
 host = ARGV[0].split("-")
 
 begin
-  config = YAML.load_file(File.dirname(__FILE__) + '/config.yml')
+  conf_path = ENV['AWS_SSH_CONFIG_PATH'] || File.dirname(__FILE__) + '/config.yml'
+  puts conf_path 
+  config = YAML.load_file(conf_path)
 rescue Errno::ENOENT
   puts "Configurationsdatei 'config.yml' nicht gefunden"
   exit -1

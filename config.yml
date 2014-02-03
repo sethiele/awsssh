@@ -1,15 +1,67 @@
+banque:
+  cms: 4149150e-776d-494c-bd6a-8a2563066c7c
+  live: 4149150e-776d-494c-bd6a-8a2563066c7c
+ber:
+  # Falsche Namenskonvention
+  live1: feebd31f-932f-4b5e-ad9d-c970165df203
+  live2: feebd31f-932f-4b5e-ad9d-c970165df203
+  staging1: 7ecdb452-f5d3-4bf6-b75b-0aac8ff7a89d
+cine:
+  live: e3232bd2-c395-4999-aba4-226b4bde40c7
+fokus:
+  live: 8835d8fc-e827-4eb0-9d65-a778500ae084
+  staging: 18d8ba52-91fa-43df-b037-fa7cc47e8ed1
+inafrika:
+  live: 024b21bf-a114-4ece-a613-a796ffd223d5
+ip:
+  app1: 2dff8952-d32e-4d83-940b-fc88e7ad2299
+  app2: 2dff8952-d32e-4d83-940b-fc88e7ad2299
+  php: 75d1b72b-aa78-4464-b73b-f99cd5f37f09
+ipsupport:
+  heine: 9a811869-72b6-4481-b058-fa5671a5875f
+infopark:
+  live: 529ce27a-0978-446d-a467-994cfb2d761c
+  staging: b3ff3826-90fe-4117-ac9c-134e2c1fc795
+kw:
+  cms: 7982b012-be37-482a-8e18-c594dd8fe9fc
+  # Falsche Namenskonvention
+  live1: 46da9dfd-c1a3-4308-a5ec-890c7f285772
+  live2: 46da9dfd-c1a3-4308-a5ec-890c7f285772
+  staging1: 174ed65e-e5ef-4270-9b18-9bc98556e627
+muensterland:
+  cms: 4c210658-c650-4d0b-93e0-355f54a7d26a
+  # Falsche Namenskonvention
+  live1: 93ac281e-5411-4df9-82d1-474642d28486
+  live2: 93ac281e-5411-4df9-82d1-474642d28486
+  live3: 93ac281e-5411-4df9-82d1-474642d28486
+  staging1: 00d3667a-34b9-4822-ae7f-85a78178bd6e
 nue:
   cms: bbf4bd43-a3d5-450a-a489-15bc14df4a9b
   # Falsche Namenskonvention
   live1: cbcbcd0b-3d90-4187-873c-733f068e8511
   live2: cbcbcd0b-3d90-4187-873c-733f068e8511
+  staging1: 70d08760-9fb7-4421-8346-2ee5ed775f06
 nueairpart4agents:
   live: 6c27f83a-ce6a-4ef6-a2b0-3b5c2260b7e0
   # Falsche Namenskonvention
   staging1: 70d08760-9fb7-4421-8346-2ee5ed775f06
+pharmatechnik:
+  live: 09476ee8-0b72-467a-9e66-622d77c8f877
+  staging: 04b97d8f-87f6-4ce6-a424-2eb259f99680
+proberaum:
+  staging: 086848c2-f086-4edb-83b7-baed45f6bcca
+pronovabkk:
+  live: 800d5287-bd3c-4ba7-b517-e6adcef79fce
+  staging: d48fb1f1-0aad-4df1-8d59-5e4af047ebd0
 sihl:
-  live: nill
-  staging: nill
+  cms: 000e7dad-80f3-4d4c-a5b0-1c12366f85a3
+  # Falsche Namenskonvention
+  live1: c552dab3-74c5-4cd7-b9ba-92c6b0117eb9
+  live2: c552dab3-74c5-4cd7-b9ba-92c6b0117eb9
+  staging1: d4b5990a-4f0f-46ff-bcb6-4e25255f2dd3
+support20130630:
+  staging1: f777e9c7-e3e3-46d9-b211-d6da86f27ed8
+  staging2: f777e9c7-e3e3-46d9-b211-d6da86f27ed8
 trox:
-  staging: 09eeff30-3bbb-4771-9dba-b12c603a515b
   live: d27d816c-e1a4-419b-a333-6f77eb66dc5b
+  staging: 09eeff30-3bbb-4771-9dba-b12c603a515b

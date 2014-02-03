@@ -14,12 +14,25 @@ da ein Aufruf von `$ ssh sihl-live1` dann aber die einstellung ignoriert der umw
 2. an die Stelle verschieben, an der es am ende liegen soll
 3. wenn bei 2. nicht /usr/* angegeben ist `rake install` ausführen. Das erstellt ein Link in `/usr/local/bin`
 
+_Erstelle dir bitte eine Umgebunsvariable mit Namen `AWS_SSH_CONFIG_PATH` die den Pfad zu deiner config.yml-Datei enthält._
+
+Beispiel:<br>
+`export AWS_SSH_CONFIG_PATH=~/Projekte/support/scripte/ruby/awsssh/config.yml`
+
 ## Aufruf
 
 `awsssh HOST`
 
 **Beispiel**<br>
 `awsssh sihl-live1`
+
+## Inhalte
+
+`Gemfile`: zum installieren aller benötigten gems<br>
+`README.md`: diese README<br>
+`Rakefile`: für die installation<br>
+`awsssh.rb`: Erstellt die verbidnung (Programmlogik)<br>
+`config.yml`: Verbindung Projekt <-> Stack
 
 ## Kontakt
 
