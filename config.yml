@@ -58,7 +58,7 @@ sihl:
   # Falsche Namenskonvention
   live1: c552dab3-74c5-4cd7-b9ba-92c6b0117eb9
   live2: c552dab3-74c5-4cd7-b9ba-92c6b0117eb9
-  staging1: d4b5990a-4f0f-46ff-bcb6-4e25255f2dd3
+  staging: d4b5990a-4f0f-46ff-bcb6-4e25255f2dd3
 support20130630:
   staging1: f777e9c7-e3e3-46d9-b211-d6da86f27ed8
   staging2: f777e9c7-e3e3-46d9-b211-d6da86f27ed8
