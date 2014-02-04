@@ -27,7 +27,7 @@ kw:
   # Falsche Namenskonvention
   live1: 46da9dfd-c1a3-4308-a5ec-890c7f285772
   live2: 46da9dfd-c1a3-4308-a5ec-890c7f285772
-  staging1: 174ed65e-e5ef-4270-9b18-9bc98556e627
+  staging: 174ed65e-e5ef-4270-9b18-9bc98556e627
 muensterland:
   cms: 4c210658-c650-4d0b-93e0-355f54a7d26a
   # Falsche Namenskonvention
