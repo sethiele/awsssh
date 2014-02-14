@@ -1,9 +1,7 @@
 #!/usr/bin/env ruby
 require 'rubygems'
 require 'net/ssh'
-require 'yaml'
 require 'json'
-require 'inifile'
 
 CONFIG_DIR = "/Users/#{ENV['USER']}/.aws/"
 CONF_FILE = "aws_config_"
