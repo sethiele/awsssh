@@ -3,8 +3,10 @@ require 'rubygems'
 require 'net/ssh'
 require 'yaml'
 require 'json'
+require 'inifile'
 
-
+CONFIG_DIR = "/Users/#{ENV['USER']}/.aws/"
+CONF_FILE = "aws_config_"
 ##
 # Renders the Help
 #
@@ -30,17 +32,24 @@ end
 ##
 # Handle the config file
 #
+# * *Args*  :
+#   - +account+ -> Account name
+#
 # * *Returns* :
 #   - all AWS Accounts and Stack-ids
 #
 
-def read_config
-  begin
-    conf_path = ENV['AWS_SSH_CONFIG_PATH'] || File.dirname(__FILE__) + '/config.yml'
-    config = YAML.load_file(conf_path)
-  rescue Errno::ENOENT
-    puts "Configurationsdatei 'config.yml' nicht gefunden"
+def read_config(account)
+  unless File.exist?(CONFIG_DIR + CONF_FILE + account)
+    puts "File not found #{CONFIG_DIR + CONF_FILE + account}"
     exit -1
+  end
+  config = IniFile.load(CONFIG_DIR + CONF_FILE + account)
+  if config['stacks'].length == 0
+    puts "The account #{account} as no stacks settings in #{CONFIG_DIR + CONF_FILE + account}"
+    exit -1 
+  else
+    return config['stacks']
   end
 end
 
@@ -70,10 +79,15 @@ end
 
 def list_accounts
   length = 30
-  config = read_config
   puts "This are the known AWS Accounts:"
-  config.each do |c|
-    printf "\t- %-#{length}s\n", c[0]
+  config_files = Dir.entries(CONFIG_DIR)
+  config_files.each do |file|
+    if file[0,CONF_FILE.length] == CONF_FILE
+      file_part = file.split("_")
+      unless file_part[2].nil?
+        printf "\t- %-#{length}s\n", file_part[2]
+      end
+    end
   end
 end
 
@@ -98,12 +112,20 @@ end
 #
 
 def list_servers(account)
+  config = read_config(account)
   puts "This is the list of all Server for AWS Account #{account}:"
-  config = read_config
-  config[account].each do |stack|
-    stack = read_stack stack[1], account
-    server_name stack
+  config.each do |stack_id|
+    begin
+      stack = read_stack stack_id[1], account
+      server_name stack
+    rescue Exception => e
+      puts "ERROR"
+    end
   end
+  # config[account].each do |stack|
+  #   stack = read_stack stack[1], account
+  #   server_name stack
+  # end
 end
 
 ##
@@ -115,8 +137,8 @@ end
 
 def connect(server)
   host = server.split("-")
-  config = read_config
-  stack = read_stack(config[host[0]][host[1]], host[0])
+  config = read_config(host[0])
+  stack = read_stack(config[host[1]], host[0])
 
 
   public_dns = nil
