@@ -72,7 +72,7 @@ end
 ##
 # Lists all AWS Accounts
 #
-# * *Args* :
+# * *Returns* :
 #   - [String]
 #       This are the known AWS Accounts:
 #               - account
@@ -97,6 +97,9 @@ end
 # * *Args*  :
 #   - +stack+ -> Stack as JSON
 #
+# * *Returns* :
+#   - [String]
+#     - <servername> (<status>)
 
 def server_name(stack)
   stack["Instances"].each do |instance|
@@ -122,10 +125,6 @@ def list_servers(account)
       puts "ERROR"
     end
   end
-  # config[account].each do |stack|
-  #   stack = read_stack stack[1], account
-  #   server_name stack
-  # end
 end
 
 ##
