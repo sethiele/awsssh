@@ -29,29 +29,26 @@ def help
   printf "\t %-#{length}s List all Server for an AWS Account\n", "--list-servers <account>"
 end
 
+
 ##
-# Handle the config file
+# List stacks for a account
 #
 # * *Args*  :
 #   - +account+ -> Account name
 #
 # * *Returns* :
-#   - all AWS Accounts and Stack-ids
-#
+#   - [Array] StackIDs
 
-def read_config(account)
-  unless File.exist?(CONFIG_DIR + CONF_FILE + account)
-    puts "File not found #{CONFIG_DIR + CONF_FILE + account}"
-    exit -1
+def list_stacks(account)
+  `awscfg #{account}`
+  stacks = JSON.parse(`aws opsworks describe-stacks`)
+  stack_ids = []
+  stacks['Stacks'].each do |stack|
+    stack_ids << stack['StackId']
   end
-  config = IniFile.load(CONFIG_DIR + CONF_FILE + account)
-  if config['stacks'].length == 0
-    puts "The account #{account} as no stacks settings in #{CONFIG_DIR + CONF_FILE + account}"
-    exit -1 
-  else
-    return config['stacks']
-  end
+  return stack_ids
 end
+
 
 ##
 # Read Stack
@@ -115,15 +112,10 @@ end
 #
 
 def list_servers(account)
-  config = read_config(account)
-  puts "This is the list of all Server for AWS Account #{account}:"
-  config.each do |stack_id|
-    begin
-      stack = read_stack stack_id[1], account
-      server_name stack
-    rescue Exception => e
-      puts "ERROR"
-    end
+  stacks = list_stacks account
+  stacks.each do |stack_id|
+    stack = read_stack stack_id, account
+    server_name stack
   end
 end
 
@@ -136,16 +128,18 @@ end
 
 def connect(server)
   host = server.split("-")
-  config = read_config(host[0])
-  stack = read_stack(config[host[1]], host[0])
-
-
   public_dns = nil
-  stack["Instances"].each do |i|
-    if i["Hostname"] == server
-      public_dns = i["PublicDns"]
-      break
+  stack_ids = list_stacks host[0]
+  stack_ids.each do |stack_id|
+    stack = read_stack(stack_id, host[0])
+    stack["Instances"].each do |i|
+      puts i["Hostname"]
+      if i["Hostname"] == server
+        public_dns = i["PublicDns"]
+        break
+      end
     end
+    break unless public_dns.nil?
   end
 
   if public_dns.nil?

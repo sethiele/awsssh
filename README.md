@@ -14,10 +14,10 @@ da ein Aufruf von `$ ssh sihl-live1` dann aber die einstellung ignoriert der umw
 2. an die Stelle verschieben, an der es am ende liegen soll
 3. wenn bei 2. nicht /usr/* angegeben ist `rake install` ausführen. Das erstellt ein Link in `/usr/local/bin`
 
-_Erstelle dir bitte eine Umgebunsvariable mit Namen `AWS_SSH_CONFIG_PATH` die den Pfad zu deiner config.yml-Datei enthält._
-
-Beispiel:<br>
-`export AWS_SSH_CONFIG_PATH=~/Projekte/support/scripte/ruby/awsssh/config.yml`
+### Configurationen
+1. Das zum Umschalten der AWS Config muss das script über `awscfg <kundenname>` aufrufbar sein.
+2. Die Konfigurationsdateien müssen unter `/Users/<username>/.aws/` liegen.
+3. Die Konfigurationsdateien müssen den Namen `aws_config_<kundenname>` heißen.
 
 ## Aufruf
 
@@ -26,13 +26,17 @@ Beispiel:<br>
 **Beispiel**<br>
 `awsssh sihl-live1`
 
+## Hilfe
+
+`awsssh --help`<br>
+Zeigt die Hilfe an
+
 ## Inhalte
 
 `Gemfile`: zum installieren aller benötigten gems<br>
 `README.md`: diese README<br>
 `Rakefile`: für die installation<br>
 `awsssh.rb`: Erstellt die verbidnung (Programmlogik)<br>
-`config.yml`: Verbindung Projekt <-> Stack
 
 ## Kontakt
 
