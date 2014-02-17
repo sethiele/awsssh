@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+
+require "awsssh"
+
+Awsssh.new.do_start()
