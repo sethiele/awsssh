@@ -10,9 +10,9 @@ da ein Aufruf von `$ ssh sihl-live1` dann aber die einstellung ignoriert der umw
 
 ## Installation
 
-1. Herunterladen
-2. an die Stelle verschieben, an der es am ende liegen soll
-3. wenn bei 2. nicht /usr/* angegeben ist `rake install` ausführen. Das erstellt ein Link in `/usr/local/bin`
+Aktuellste gem Version herunterladen und installieren
+
+`gem install awsss-VERSION.gem`
 
 ### Configurationen
 1. Das zum Umschalten der AWS Config muss das script über `awscfg <kundenname>` aufrufbar sein.
@@ -31,13 +31,11 @@ da ein Aufruf von `$ ssh sihl-live1` dann aber die einstellung ignoriert der umw
 `awsssh --help`<br>
 Zeigt die Hilfe an
 
-## Inhalte
-
-`Gemfile`: zum installieren aller benötigten gems<br>
-`README.md`: diese README<br>
-`Rakefile`: für die installation<br>
-`awsssh.rb`: Erstellt die verbidnung (Programmlogik)<br>
-
 ## Kontakt
 
 Sebastian Thiele <[mailto:sebastian.thiele@infopark.de]>
+
+## Changelog
+
+**2014-02-27**
+Umgestellt auf gem
