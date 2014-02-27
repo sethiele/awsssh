@@ -52,7 +52,7 @@ class Awsssh
   #   - [Array] StackIDs
 
   def list_stacks(account)
-    `awscfg #{account}`
+    awscfg(account)
     stacks = JSON.parse(`aws opsworks describe-stacks`)
     stack_ids = []
     stacks['Stacks'].each do |stack|
@@ -74,7 +74,8 @@ class Awsssh
   #
 
   def read_stack(stackid, account)
-    `awscfg #{account}`
+    # `awscfg #{account}`
+    awscfg(account)
     JSON.parse(`aws opsworks describe-instances --stack-id #{stackid}`)
   end
 
@@ -145,7 +146,6 @@ class Awsssh
     stack_ids.each do |stack_id|
       stack = read_stack(stack_id, host[0])
       stack["Instances"].each do |i|
-        puts i["Hostname"]
         if i["Hostname"] == server
           public_dns = i["PublicDns"]
           break
@@ -163,6 +163,15 @@ class Awsssh
     puts "Connecting to #{server} (#{public_dns})"
     exec "ssh #{public_dns}"
 
+  end
+
+  def awscfg(account)
+    if File.exists?(CONFIG_DIR + CONF_FILE + account)
+      `awscfg #{account}`
+    else
+      puts "No config #{CONF_FILE}#{account} found"
+      exit -1
+    end
   end
 
 

@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name        = 'awsssh'
-  s.version     = '2.0.0'
-  s.date        = '2014-02-17'
+  s.version     = '2.0.1'
+  s.date        = '2014-02-27'
   s.summary     = "Connects you with OpsWorks EC2"
   s.description = "This will connects you with an EC3 instace"
   s.authors     = ["Sebastian Thiele"]
