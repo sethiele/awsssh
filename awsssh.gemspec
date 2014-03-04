@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'awsssh'
-  s.version     = '2.0.1'
+  s.version     = '2.1.0'
   s.date        = '2014-02-27'
   s.summary     = "Connects you with OpsWorks EC2"
   s.description = "This will connects you with an EC3 instace"
@@ -13,4 +13,6 @@ Gem::Specification.new do |s|
 
 
   s.add_runtime_dependency "net-ssh", "2.7.0"
+  s.add_runtime_dependency "inifile", "2.0.2"
+  s.add_runtime_dependency "aws-sdk", "1.35.0,"
 end

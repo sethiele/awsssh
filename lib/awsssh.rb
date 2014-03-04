@@ -2,6 +2,9 @@
 require 'rubygems'
 require 'net/ssh'
 require 'json'
+require "aws-sdk"
+require "pry"
+require "inifile"
 
 class Awsssh
 
@@ -52,11 +55,11 @@ class Awsssh
   #   - [Array] StackIDs
 
   def list_stacks(account)
-    awscfg(account)
-    stacks = JSON.parse(`aws opsworks describe-stacks`)
+    ow = awscfg(account)
+    stacks = ow.client.describe_stacks[:stacks]
     stack_ids = []
-    stacks['Stacks'].each do |stack|
-      stack_ids << stack['StackId']
+    stacks.each do |stack|
+      stack_ids << stack[:stack_id]
     end
     return stack_ids
   end
@@ -74,9 +77,9 @@ class Awsssh
   #
 
   def read_stack(stackid, account)
-    # `awscfg #{account}`
-    awscfg(account)
-    JSON.parse(`aws opsworks describe-instances --stack-id #{stackid}`)
+    ow = awscfg(account)
+    ow.client.describe_instances({:stack_id => stackid})
+    # JSON.parse(`aws opsworks describe-instances --stack-id #{stackid}`)
   end
 
   ##
@@ -112,8 +115,8 @@ class Awsssh
   #     - <servername> (<status>)
 
   def server_name(stack)
-    stack["Instances"].each do |instance|
-      printf "\t- %-20s %s\n", instance["Hostname"], instance["Status"]
+    stack[:instances].each do |instance|
+      printf "\t- %-20s %s\n", instance[:hostname], instance[:status]
     end
   end
 
@@ -145,9 +148,9 @@ class Awsssh
     stack_ids = list_stacks host[0]
     stack_ids.each do |stack_id|
       stack = read_stack(stack_id, host[0])
-      stack["Instances"].each do |i|
-        if i["Hostname"] == server
-          public_dns = i["PublicDns"]
+      stack.instances.each do |i|
+        if i[:hostname] == server
+          public_dns = i[:public_dns]
           break
         end
       end
@@ -166,8 +169,12 @@ class Awsssh
   end
 
   def awscfg(account)
-    if File.exists?(CONFIG_DIR + CONF_FILE + account)
-      `awscfg #{account}`
+    if cnf = IniFile.load(CONFIG_DIR + CONF_FILE + account)['default']
+      return AWS::OpsWorks.new(
+        access_key_id: cnf['aws_access_key_id'], 
+        secret_access_key: cnf['aws_secret_access_key'], 
+        region: cnf['region']
+      )
     else
       puts "No config #{CONF_FILE}#{account} found"
       exit -1
@@ -177,3 +184,5 @@ class Awsssh
 
 
 end
+
+Awsssh.new.do_start()
