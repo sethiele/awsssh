@@ -3,10 +3,12 @@ require 'rubygems'
 require 'net/ssh'
 require 'json'
 require "aws-sdk"
-require "pry"
+# require "pry"
 require "inifile"
 
 class Awsssh
+  CONFIG_DIR = ENV['AWSSSH_CONFIG_DIR'] || "/Users/#{ENV['USER']}/.aws/"
+  CONF_FILE = ENV['AWSSSH_CONFIG_FILE'] || "aws_config_"
 
   def do_start
     if ARGV[0] == "--list-accounts"
@@ -20,8 +22,6 @@ class Awsssh
     end
   end
 
-  CONFIG_DIR = "/Users/#{ENV['USER']}/.aws/"
-  CONF_FILE = "aws_config_"
   ##
   # Renders the Help
   #
@@ -97,7 +97,7 @@ class Awsssh
     config_files.each do |file|
       if file[0,CONF_FILE.length] == CONF_FILE
         file_part = file.split("_")
-        unless file_part[2].nil?
+        unless file_part.last.nil?
           printf "\t- %-#{length}s\n", file_part[2]
         end
       end
@@ -184,5 +184,3 @@ class Awsssh
 
 
 end
-
-Awsssh.new.do_start()

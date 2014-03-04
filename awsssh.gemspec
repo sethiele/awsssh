@@ -14,5 +14,5 @@ Gem::Specification.new do |s|
 
   s.add_runtime_dependency "net-ssh", "2.7.0"
   s.add_runtime_dependency "inifile", "2.0.2"
-  s.add_runtime_dependency "aws-sdk", "1.35.0,"
+  s.add_runtime_dependency "aws-sdk", "1.35.0"
 end
