@@ -1,5 +1,7 @@
 # AWSSSH
 
+[![Gem Version](https://badge.fury.io/rb/awsssh.png)](http://badge.fury.io/rb/awsssh)
+
 Mit hilfe dieses Gems kann man sich auf alle (bekannten) AWS EC2 Instancen verbinden die man durch seine Configurationen erreichen darf.
 Momentan ist das beschränkt auf EC2 Instancen, die durch OpsWorks verwaltet werden.
 
