@@ -12,8 +12,8 @@ class Awsssh < Thor
   CONF_FILE = ENV['AWSSSH_CONFIG_FILE'] || "aws_config_"
 
   desc "-s SERVER [-a ACCOUNT]", "connect to a server"
-  option :server, :aliases => :s, :desc => "(required) The server name to connect with"
-  option :account, :aliases => :a, :desc => "Specify a account for a connection. Needet if the account don't came from the server name"
+  option :server, :aliases => '-s', :desc => "(required) The server name to connect with"
+  option :account, :aliases => '-a', :desc => "Specify a account for a connection. Needet if the account don't came from the server name"
   option :list_accounts, :type => :boolean, :desc => "List all Accounts"
   option :list_servers, :desc => "List all Servers for a given Account"
   def connect

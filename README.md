@@ -35,6 +35,9 @@ Sebastian Thiele (@sethiele)
 
 ## Changelog
 
+**2014-03-** - v 2.1.2
+* [fix] alias with -
+
 **2014-03-05** - v 2.1.1
 * [enh] using thor as CLI Class
 * **New connection call** call `awsssh -s SERVER`
