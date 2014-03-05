@@ -1,41 +1,53 @@
 # AWSSSH
 
-Im [Mitarbeiterhandbuch](https://employeeapps.infopark.de/manual/03_Security) sind SSH-Configurationen vorgegeben, mit denen man alle AWS-EC2s abfängt.
-Da ich aber nicht jedesmal nachschauen will, wie der Public-DNS Name einer instance ist, will ich das weiterhin in meiner ssh config pflegen und habe dort einträge wie:
+Mit hilfe dieses Gems kann man sich auf alle (bekannten) AWS EC2 Instancen verbinden die man durch seine Configurationen erreichen darf.
+Momentan ist das beschränkt auf EC2 Instancen, die durch OpsWorks verwaltet werden.
 
-```Host sihl-live1
-  Hostname ec2-54-194-243-71.eu-west-1.compute.amazonaws.com```
-
-da ein Aufruf von `$ ssh sihl-live1` dann aber die einstellung ignoriert der umweg über dieses script.
+Da sich die IP und der Public DNS der Server bei jedem Neustart ändern kann fragt dieses Gem immer bei AWS nach der aktuellen IP/DNS Name.
 
 ## Installation
 
-Aktuellste gem Version herunterladen und installieren
+Mitlerweile ist aus `awsssh` ein richtiges gem geworden.
 
-`gem install awsss-VERSION.gem`
+1. `gem install awsssh`
 
 ### Configurationen
-1. Das zum Umschalten der AWS Config muss das script über `awscfg <kundenname>` aufrufbar sein.
-2. Die Konfigurationsdateien müssen unter `/Users/<username>/.aws/` liegen.
-3. Die Konfigurationsdateien müssen den Namen `aws_config_<kundenname>` heißen.
+1. Die Konfigurationsdateien müssen unter `/Users/<username>/.aws/` liegen. Wenn dem nicht so ist muss es eine Umgebungsvariable geben, die den Pfad zu den Configurationsdateien beinhaltet: `export ENV['AWSSSH_CONFIG_DIR']=/path/to/configs/`
+3. Die Konfigurationsdateien müssen den Namen `aws_config_<kundenname>` haben. Wenn dem nicht so ist muss es eine Umgebungsvariable geben, die den Anfang der Configurationsdateien beinhaltet: `export ENV['AWSSSH_CONFIG_FILE']=awsconf_`
 
 ## Aufruf
 
-`awsssh HOST`
+`awsssh -s HOST`
 
 **Beispiel**<br>
-`awsssh sihl-live1`
+`awsssh -s kunde-live-1`
 
 ## Hilfe
 
-`awsssh --help`<br>
+`awsssh help`<br>
 Zeigt die Hilfe an
 
 ## Kontakt
 
-Sebastian Thiele <[mailto:sebastian.thiele@infopark.de]>
+Sebastian Thiele (@sethiele)
 
 ## Changelog
 
-**2014-02-27**
-Umgestellt auf gem
+**2014-03-05** - v 2.1.1
+* [enh] using thor as CLI Class
+* **New connection call** call `awsssh -s SERVER`
+* [enh] use a account for connections `awsssh -s SERVER -a ACCOUNT`
+
+**2014-03-04** - v 2.1.0
+* [enh] use AWS Ruby SDK
+* [enh] use ENV variables to access configurations
+
+**2014-02-27** - v 2.0.1 *the Ronald Fix*
+* [code] Code optimization
+* [enh] return a error message if config not found
+
+**2014-02-14** - v 2.0.0
+* [enh] first gem version
+
+**earlier**
+* Some experiences

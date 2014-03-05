@@ -2,4 +2,4 @@
 
 require "awsssh"
 
-Awsssh.new.do_start()
+Awsssh.start(ARGV)
