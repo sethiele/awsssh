@@ -17,14 +17,14 @@ Mitlerweile ist aus `awsssh` ein richtiges gem geworden.
 
 ## Aufruf
 
-`awsssh HOST`
+`awsssh -s HOST`
 
 **Beispiel**<br>
-`awsssh kunde-live-1`
+`awsssh -s kunde-live-1`
 
 ## Hilfe
 
-`awsssh --help`<br>
+`awsssh help`<br>
 Zeigt die Hilfe an
 
 ## Kontakt
@@ -33,9 +33,10 @@ Sebastian Thiele (@sethiele)
 
 ## Changelog
 
-**2014-03-04** - v 2.1.1
-* [enh] This readme
-* [enh] Add a extra parameter to the connection to choose a account. (If this is not clear by the hostname)
+**2014-03-05** - v 2.1.1
+* [enh] using thor as CLI Class
+* **New connection call** call `awsssh -s SERVER`
+* [enh] use a account for connections `awsssh -s SERVER -a ACCOUNT`
 
 **2014-03-04** - v 2.1.0
 * [enh] use AWS Ruby SDK
