@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.license     = "MIT"
   s.files       = `git ls-files`.split("\n")
   s.executables = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
-  s.homepage    = "https://github.com/infopark/support/tree/master/scripte/ruby/awsssh"
+  s.homepage    = "https://github.com/sethiele/awsssh"
 
 
   s.add_runtime_dependency "net-ssh", "2.7.0"
