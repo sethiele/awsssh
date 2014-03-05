@@ -16,7 +16,11 @@ class Awsssh
     elsif ARGV[0] == "--list-servers" && !ARGV[1].nil?
       list_servers(ARGV[1])
     elsif !ARGV[0].nil? && ARGV[0][0,2] != "--"
-      connect ARGV[0]
+      if ARGV[1] == "-a" && !ARGV[2].nil?
+        connect(ARGV[0], ARGV[2])
+      else
+        connect ARGV[0]
+      end
     else
       help
     end
@@ -29,6 +33,7 @@ class Awsssh
   # - [String]
   #       usage: awsssh [<instance-name>|parameters]
   #                <instance-name>                Name of the instance
+  #                -a                             Account
   #       parameters:
   #                --help                         This help
   #                --list-accounts                List all known AWS Accounts
@@ -38,6 +43,7 @@ class Awsssh
     length = 30
     puts "usage: awsssh [<instance-name>|parameters]"
     printf "\t %-#{length}s Name of the instance\n", "<instance-name>"
+    printf "\t %-#{length}s (optional) Account name\n", "-a"
     puts  "parameters:"
     printf "\t %-#{length}s This help\n", "--help"
     printf "\t %-#{length}s List all known AWS Accounts\n", "--list-accounts"
@@ -142,12 +148,13 @@ class Awsssh
   #   - +server+ -> Server name
   #
 
-  def connect(server)
-    host = server.split("-")
+  def connect(server, account=nil)
     public_dns = nil
-    stack_ids = list_stacks host[0]
+    host = server.split("-")
+    ac = account || host[0]
+    stack_ids = list_stacks ac
     stack_ids.each do |stack_id|
-      stack = read_stack(stack_id, host[0])
+      stack = read_stack(stack_id, ac)
       stack.instances.each do |i|
         if i[:hostname] == server
           public_dns = i[:public_dns]
@@ -180,7 +187,4 @@ class Awsssh
       exit -1
     end
   end
-
-
-
 end
