@@ -31,9 +31,12 @@ Zeigt die Hilfe an
 
 ## Kontakt
 
-Sebastian Thiele (@sethiele)
+Sebastian Thiele Twitter: (@sebat)
 
 ## Changelog
+
+**2014-08-01 - v 2.1.2**
+* [enh] Alias for `--list-servers` and `--list-accounts`
 
 **2014-03-** - v 2.1.2
 * [fix] alias with -

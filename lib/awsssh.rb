@@ -14,8 +14,32 @@ class Awsssh < Thor
   desc "-s SERVER [-a ACCOUNT]", "connect to a server"
   option :server, :aliases => '-s', :desc => "(required) The server name to connect with"
   option :account, :aliases => '-a', :desc => "Specify a account for a connection. Needet if the account don't came from the server name"
-  option :list_accounts, :type => :boolean, :desc => "List all Accounts"
-  option :list_servers, :desc => "List all Servers for a given Account"
+  option :list_accounts, :aliases => '-k', :type => :boolean, :desc => "List all Accounts"
+  option :list_servers, :aliases => '-i', :desc => "List all Servers for a given Account", :banner => "ACCOUNT"
+  # option :check_status, :alias => '-c', :type => :string, :desc => "Give information when the server status has changed to target.", :banner => "STATUS"
+  long_desc <<-LONGDESC
+    # Connect to a Server:
+
+
+    > $ awsssh -s SERVER
+    \x5 This will connect you to a Server. This will work only if the first part of the server name is the same as the account name.
+
+    > $ awsssh -s SERVER -a ACCOUNT
+    \x5 With -a you can spezify a account to connect with. The server name don't play any role.
+
+    # List all Account:
+
+    > $ awsssh [--list-accounts|-k]
+    \x5 This will list all Accounts
+
+    # List all Servers for a Account
+
+    > $ awsssh [--list-servers|-i] ACCOUNT
+    \x5 List all Servers vor Account ACCOUNT
+
+    # Get notification when Server is in Status
+
+  LONGDESC
   def connect
     if options[:server]
       connecting(options[:server], options[:account])
@@ -157,8 +181,8 @@ class Awsssh < Thor
       if cnf = IniFile.load(CONFIG_DIR + CONF_FILE + account)
         cnf = cnf['default']
         return AWS::OpsWorks.new(
-          access_key_id: cnf['aws_access_key_id'], 
-          secret_access_key: cnf['aws_secret_access_key'], 
+          access_key_id: cnf['aws_access_key_id'],
+          secret_access_key: cnf['aws_secret_access_key'],
           region: cnf['region']
         )
       else
