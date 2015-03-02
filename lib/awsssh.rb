@@ -2,7 +2,7 @@ require "awsssh/version"
 require 'net/ssh'
 require 'json'
 require "aws-sdk"
-Bundler.require(:default, :development)
+# Bundler.require(:default, :development)
 require "inifile"
 require "thor"
 
