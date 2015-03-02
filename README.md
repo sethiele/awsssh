@@ -34,6 +34,9 @@ Zeigt die Hilfe an
 Sebastian Thiele Twitter: (@sebat)
 
 ## Changelog
+**2015-03-02 - v 2.2.1**
+* [add] Version information
+
 **2015-03-02 - v 2.2.0**
 * [enh] Alias for list servers and accounts changed
 * [fix] Build own punlic DNS if no public dns is set

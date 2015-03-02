@@ -16,6 +16,7 @@ module Awsssh
     option :account, :aliases => '-a', :desc => "Specify a account for a connection. Needet if the account don't came from the server name"
     option :list, :aliases => '-l', :desc => "List any items use with -s for Servers or -a ACCOUNT for accounts", :type => :boolean
     option :check, :aliases => '-c', :desc => "Alerts when -c STATE comes up for -s SERVER"
+    option :version, :aliases => '-v', :desc => "Version"
     long_desc <<-LONGDESC
       # Connect to a Server:
 
@@ -46,6 +47,8 @@ module Awsssh
         list_servers(options[:server])
       elsif options[:server]
         connecting(options[:server], options[:account])
+      elsif options[:version]
+        puts VERSION
       else
         help "connect"
       end
