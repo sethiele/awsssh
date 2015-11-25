@@ -34,7 +34,7 @@ module Awsssh
 
       # List all Servers for a Account
 
-      > $ awsssh -l -a ACCOUNT
+      > $ awsssh -l -s ACCOUNT
       \x5 List all Servers vor Account ACCOUNT
 
       # Check Server Status

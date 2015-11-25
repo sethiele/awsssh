@@ -34,6 +34,9 @@ Zeigt die Hilfe an
 Sebastian Thiele Twitter: (@sebat)
 
 ## Changelog
+**2015-11-25 - v 2.2.2**
+* [fix] List all Servers
+
 **2015-03-02 - v 2.2.1**
 * [add] Version information
 
