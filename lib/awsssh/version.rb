@@ -1,3 +1,3 @@
 module Awsssh
-  VERSION = "2.2.2"
+  VERSION = "3.0.0.rc1"
 end

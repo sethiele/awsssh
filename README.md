@@ -14,26 +14,54 @@ Mitlerweile ist aus `awsssh` ein richtiges gem geworden.
 1. `gem install awsssh`
 
 ### Configurationen
-1. Die Konfigurationsdateien müssen unter `/Users/<username>/.aws/` liegen. Wenn dem nicht so ist muss es eine Umgebungsvariable geben, die den Pfad zu den Configurationsdateien beinhaltet: `export ENV['AWSSSH_CONFIG_DIR']=/path/to/configs/`
-3. Die Konfigurationsdateien müssen den Namen `aws_config_<kundenname>` haben. Wenn dem nicht so ist muss es eine Umgebungsvariable geben, die den Anfang der Configurationsdateien beinhaltet: `export ENV['AWSSSH_CONFIG_FILE']=awsconf_`
+* Es muss die Variable `AWS_CREDENTIAL_FILE` auf das Credentialfile gesetzt sein.
+* In der Datei müssen die Zugangsdaten in der folgenden Form enthalten sein:
+```
+[PROFILE-1]
+aws_access_key_id=VALUE
+aws_secret_access_key=VALUE
+[PROFILE-n]
+aws_access_key_id=VALUE
+aws_secret_access_key=VALUE
+```
 
 ## Aufruf
 
-`awsssh -s HOST`
+### Mit Server verbinden
+
+Wenn der Profilname im Hostname enthalten ist:<br>
+`awsssh HOSTNAME`
 
 **Beispiel**<br>
-`awsssh -s kunde-live-1`
+`awsssh profile-live-1`
 
-## Hilfe
+Wenn der Profilname nicht im Hostname enthalten ist:<br>
+`awsssh HOSTNAME --profile PROFILE`
 
-`awsssh help`<br>
-Zeigt die Hilfe an
+**Beispiel**<br>
+`awsssh live-1 --profile KundeXY`
+
+### Liste aller Profile
+`awsssh list_profiles`
+
+### Liste aller Server für ein Profil
+`awsssh list_server PROFIL`
+
+### Hilfe
+`awsssh help`
+
+### Version
+`awsssh version`
 
 ## Kontakt
 
 Sebastian Thiele Twitter: (@sebat)
 
 ## Changelog
+**2016-02-04 - v 3.0.0.rc1**
+* redesign
+* new credential format
+
 **2015-11-25 - v 2.2.2**
 * [fix] List all Servers
 

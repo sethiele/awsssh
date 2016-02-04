@@ -8,10 +8,10 @@ describe Awsssh::Awsssh do
     capture(:stdout) { runner.send(*args, &block) }
   end
 
-  describe "on list stacks" do
-    it "lists all stacks" do
+  describe "on list server" do
+    it "lists all server" do
       base = Awsssh::Awsssh.new ["-s"]
-      base.send(:list_stacks, 'trox').class.should eq [].class
+      expect(base.send(:list_server, 'trox').class).to eq [].class
     end
   end
 end

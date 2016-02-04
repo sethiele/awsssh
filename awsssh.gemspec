@@ -18,13 +18,11 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
-  spec.add_development_dependency "bundler", "~> 1.8.3"
-  spec.add_development_dependency "rake", "~> 10.4.2"
-  spec.add_development_dependency "pry", "~> 0.10.1"
-  spec.add_development_dependency "rspec", "~> 2.6"
+  spec.add_development_dependency "bundler", "~> 1.8", ">= 1.8.3"
+  spec.add_development_dependency "pry", "~> 0.10.3", ">= 0.10.3"
+  spec.add_development_dependency "rspec", "~> 3.4.0", ">= 3.4.0"
 
-  spec.add_runtime_dependency "net-ssh", "2.7.0"
-  spec.add_runtime_dependency "inifile", "2.0.2"
-  spec.add_runtime_dependency "aws-sdk", "1.35.0"
-  spec.add_runtime_dependency "thor", "0.18.1"
+  spec.add_runtime_dependency "inifile", "~> 3.0.0", ">= 3.0.0"
+  spec.add_runtime_dependency "aws-sdk", "~> 2.2.0", ">= 2.2.0"
+  spec.add_runtime_dependency "thor", "~> 0.19.1", ">= 0.19.1"
 end
