@@ -2,20 +2,19 @@
 
 [![Gem Version](https://badge.fury.io/rb/awsssh.png)](http://badge.fury.io/rb/awsssh)
 
-Mit hilfe dieses Gems kann man sich auf alle (bekannten) AWS EC2 Instancen verbinden die man durch seine Configurationen erreichen darf.
-Momentan ist das beschränkt auf EC2 Instancen, die durch OpsWorks verwaltet werden.
+This gem helps you to connect to any `Amazon Web Service` `Opsworks` instances you have permissions for via ssh.
+You don't have to setup your ssh configuration for dynamic Hostnames or dynamic IPs. And this over the borders of profiles (AWS accounts).
 
-Da sich die IP und der Public DNS der Server bei jedem Neustart ändern kann fragt dieses Gem immer bei AWS nach der aktuellen IP/DNS Name.
+This gem reads the AWS Opsworks Stackinformations and looks for the right server to connect. All You have to know is the right Server Hostname (when the host name follows the pattern `PROFILENAME-WHATEVER` this is all you need) and the profile name.
 
 ## Installation
-
-Mitlerweile ist aus `awsssh` ein richtiges gem geworden.
 
 1. `gem install awsssh`
 
 ### Configurationen
-* Es muss die Variable `AWS_CREDENTIAL_FILE` auf das Credentialfile gesetzt sein.
-* In der Datei müssen die Zugangsdaten in der folgenden Form enthalten sein:
+
+* Be shure you have seted up the Enviroment variable `AWS_CREDENTIAL_FILE` with the path to your credential File. (`echo $AWS_CREDENTIAL_FILE`) If not set the Enviroment variable with `export AWS_CREDENTIAL_FILE=~/.aws/credentials`.
+* Inside the credential file you have to place all your credentials in the following format (its aws standard):
 ```
 [PROFILE-1]
 aws_access_key_id=VALUE
@@ -25,39 +24,43 @@ aws_access_key_id=VALUE
 aws_secret_access_key=VALUE
 ```
 
-## Aufruf
+## Use `awsssh`
 
-### Mit Server verbinden
+### Connect to Server
 
-Wenn der Profilname im Hostname enthalten ist:<br>
+If the profile name is the first part of the host name (like `PROFILENAME-WHATEVER`) connect with:<br>
 `awsssh HOSTNAME`
 
-**Beispiel**<br>
+**Example:**<br>
 `awsssh profile-live-1`
 
-Wenn der Profilname nicht im Hostname enthalten ist:<br>
+If the profile name is not the first part of the hostname (like `app-1`) connect with:<br>
 `awsssh HOSTNAME --profile PROFILE`
 
-**Beispiel**<br>
-`awsssh live-1 --profile KundeXY`
+**Example:**<br>
+`awsssh app-1 --profile PROFILENAME`
 
-### Liste aller Profile
+### List all profiles
 `awsssh list_profiles`
 
-### Liste aller Server für ein Profil
-`awsssh list_server PROFIL`
+### List all server for a given profile
+`awsssh list_server PROFILENAME`
 
-### Hilfe
+### Help
 `awsssh help`
 
 ### Version
 `awsssh version`
 
-## Kontakt
+## Contact
 
-Sebastian Thiele Twitter: (@sebat)
+Sebastian Thiele<br>
+(Twitter: [@sebat](https://twitter.com/sebat))
 
 ## Changelog
+**2016-xx-xx - v 3.0.0.rc2**
+* readme in english
+
 **2016-02-04 - v 3.0.0.rc1**
 * redesign
 * new credential format
