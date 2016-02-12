@@ -8,19 +8,23 @@ describe Awsssh::Awsssh do
     capture(:stdout) { runner.send(*args, &block) }
   end
 
+  before(:example) do
+    @base = Awsssh::Awsssh.new ["-s"]
+  end
+
   describe "on list porfiles" do
     it "should list all profiles" do
-      base = Awsssh::Awsssh.new ["-s"]
-      expect(base.send(:list_profiles).class).to eq [].class
+      expect(@base.send(:list_profiles).class).to eq [].class
     end
   end
 
   describe "on list server" do
-    it "raise an error when no profile is set"
+    it "raise an error when no profile is set" do
+      expect { @base.send(:list_server) }.to raise_error(ArgumentError)
+    end
 
     it "lists all server" do
-      base = Awsssh::Awsssh.new ["-s"]
-      expect(base.send(:list_server, 'trox').class).to eq [].class
+      expect(@base.send(:list_server, 'trox').class).to eq [].class
     end
   end
 end
