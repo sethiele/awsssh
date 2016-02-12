@@ -75,8 +75,14 @@ module Awsssh
     # open and check credential file
     #
     def open_credantial_file()
-      raise "Enviroment variable `AWS_CREDENTIAL_FILE` not set" if ENV['AWS_CREDENTIAL_FILE'].nil?
-      raise "Credential File not found. Please check path `#{ENV['AWS_CREDENTIAL_FILE']}`" unless File.exist?(ENV['AWS_CREDENTIAL_FILE'])
+      if ENV['AWS_CREDENTIAL_FILE'].to_s.empty?
+        $stderr.puts "$AWS_CREDENTIAL_FILE not set"
+        Process.exit!(4)
+      end
+      unless File.exist?(ENV['AWS_CREDENTIAL_FILE'])
+        $stderr.puts "Credential File not found. Please check path `#{ENV['AWS_CREDENTIAL_FILE']}`"
+        Process.exit!(4)
+      end
       IniFile.load(ENV['AWS_CREDENTIAL_FILE'])
     end
 
