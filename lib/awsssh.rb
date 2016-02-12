@@ -107,8 +107,5 @@ module Awsssh
       end
       return nil
     end
-
-
-    default_task :connect
   end
 end
