@@ -1,6 +1,6 @@
 # AWSSSH
 
-[![Gem Version](https://badge.fury.io/rb/awsssh.png)](http://badge.fury.io/rb/awsssh)
+[![Gem Version](https://badge.fury.io/rb/awsssh.png)](http://badge.fury.io/rb/awsssh) || Master: [![Build Status](https://travis-ci.org/sethiele/awsssh.svg?branch=master)](https://travis-ci.org/sethiele/awsssh) || develop: [![Build Status](https://travis-ci.org/sethiele/awsssh.svg?branch=develop)](https://travis-ci.org/sethiele/awsssh)
 
 This gem helps you to connect to any `Amazon Web Service` `Opsworks` instances you have permissions for via ssh.
 You don't have to setup your ssh configuration for dynamic Hostnames or dynamic IPs. And this over the borders of profiles (AWS accounts).
