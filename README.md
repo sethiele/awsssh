@@ -29,16 +29,16 @@ aws_secret_access_key=VALUE
 ### Connect to Server
 
 If the profile name is the first part of the host name (like `PROFILENAME-WHATEVER`) connect with:<br>
-`awsssh HOSTNAME`
+`awsssh connect HOSTNAME`
 
 **Example:**<br>
-`awsssh profile-live-1`
+`awsssh connect profile-live-1`
 
 If the profile name is not the first part of the hostname (like `app-1`) connect with:<br>
-`awsssh HOSTNAME --profile PROFILE`
+`awsssh connect HOSTNAME --profile PROFILE`
 
 **Example:**<br>
-`awsssh app-1 --profile PROFILENAME`
+`awsssh connect app-1 --profile PROFILENAME`
 
 ### List all profiles
 `awsssh list_profiles`
@@ -60,6 +60,7 @@ Sebastian Thiele<br>
 ## Changelog
 **2016-xx-xx - v 3.0.0.rc2**
 * readme in english
+* Tests
 
 **2016-02-04 - v 3.0.0.rc1**
 * redesign
