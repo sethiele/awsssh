@@ -6,11 +6,12 @@ require 'awsssh/version'
 Gem::Specification.new do |spec|
   spec.name          = "awsssh"
   spec.version       = Awsssh::VERSION
-  spec.authors       = ["Sebastian Thiele"]
-  spec.email         = [%w(Sebastian.Thiele infopark.de).join('@')]
+  spec.author        = "Sebastian Thiele"
+  spec.email         = %w(Sebastian.Thiele infopark.de).join('@')
   spec.summary       = "Connects you with OpsWorks EC2"
   spec.description   = "This will connects you with an EC2 instace"
   spec.homepage      = "https://github.com/sethiele/awsssh"
+  spec.metadata      = { "issue_tracker" => "https://github.com/sethiele/awsssh/issues" }
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
