@@ -57,8 +57,11 @@ If the profile name is not the first part of the hostname (like `app-1`) connect
 Sebastian Thiele<br>
 (Twitter: [@sebat](https://twitter.com/sebat))
 
+issues:
+[github](https://github.com/sethiele/awsssh)
+
 ## Changelog
-**2016-xx-xx - v 3.0.0.rc2**
+**2016-02-18 - v 3.0.0**
 * readme in english
 * Tests
 

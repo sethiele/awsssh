@@ -69,6 +69,15 @@ module Awsssh
     end
 
 
+    # @private
+    def help(command = nil, subcommand = false)
+     super
+     puts "For more information visit https://github.com/sethiele/awsssh"
+     puts ""
+    end
+
+
+
     private
 
     ##
