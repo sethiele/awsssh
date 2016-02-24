@@ -2,10 +2,23 @@ require "awsssh/version"
 require "thor"
 require "inifile"
 require "aws-sdk"
+require "colorize"
 
 
 module Awsssh
   class Awsssh < Thor
+
+    def initialize(*args)
+      super
+      @text_colors = {
+        :infotext => :cyan,
+        :infotext_sub => :yellow,
+        :status => {
+          :online => :green,
+          :stopped => :light_red
+          }
+        }
+    end
 
     desc "list_profiles", "List all your avavible profiles"
     def list_profiles()
@@ -18,25 +31,27 @@ module Awsssh
     end
 
     desc "list_server PROFILE", "List all Server for given profile"
+    method_option :all, :type => :boolean, :aliases => "-a", :default => false, :desc => "Show all Server"
     def list_server(profile)
       credentials = open_credantial_file
       raise "Profile `#{profile}` not found. Please try `awsssh list_profiles`" if credentials[profile].empty?
       aws_connection(profile, credentials)
 
-      puts "Stacks and instances for profile `#{profile}`"
+      puts "Stacks and instances for profile `#{profile}`".colorize(@text_colors[:infotext])
+      puts "only online server".colorize(@text_colors[:infotext_sub]) unless options[:all]
       puts
 
       @client.describe_stacks.stacks.each do |stack|
         puts "##### Stack: #{stack.name}"
         @client.describe_instances({stack_id: stack.stack_id}).instances.each do |instance|
-          printf "             %-20s status: %-11s %s\n" % [instance.hostname, instance.status, public_dns(instance)]
+          printf "             %-20s status: %-11s %s\n".colorize(@text_colors[:status][instance.status.to_sym]) % [instance.hostname, instance.status, public_dns(instance)] if instance.status == "online" or options[:all]
         end
         puts ""
       end
     end
 
     desc "connect SERVERNAME", "Connect to Hostname"
-    option :profile, :desc => "specify a profile - see `awsssh list_profiles`"
+    method_option :profile, :desc => "specify a profile - see `awsssh list_profiles`"
     def connect (hostname)
       hostname_parts = hostname.split("-")
       profile = options[:profile] || hostname_parts[0]
