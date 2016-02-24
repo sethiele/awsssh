@@ -64,6 +64,7 @@ issues:
 **2016-02-24 - v 3.1.0**
 * [enh] Show only online Server
 * [enh] colors in output
+* [enh] connect to server from list_server
 * [fix] error message for list_servers with unkown profile
 
 **2016-02-18 - v 3.0.0**

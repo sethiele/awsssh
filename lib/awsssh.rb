@@ -44,12 +44,38 @@ module Awsssh
       puts "only online server".colorize(@text_colors[:infotext_sub]) unless options[:all]
       puts
 
+      server_number = 0
+      server_online = []
+
       @client.describe_stacks.stacks.each do |stack|
         puts "##### Stack: #{stack.name}"
         @client.describe_instances({stack_id: stack.stack_id}).instances.each do |instance|
-          printf "             %-20s status: %-11s %s\n".colorize(@text_colors[:status][instance.status.to_sym]) % [instance.hostname, instance.status, public_dns(instance)] if instance.status == "online" or options[:all]
+          if instance.status == "online"
+            server_number+=1
+            server_online[server_number] = public_dns = public_dns(instance)
+            printf("[%02d]" % [server_number])
+          else
+            print "    "
+            public_dns = "-"
+          end
+          printf "         %-20s status: %-11s %s\n".colorize(@text_colors[:status][instance.status.to_sym]) % [instance.hostname, instance.status, public_dns] if instance.status == "online" or options[:all]
         end
         puts ""
+      end
+      while true
+        print "Would you like to connect to any server directly? Please enter Server number (Enter to exit): "
+        server_to_connect = STDIN.gets.chomp
+        if server_to_connect.to_i != 0 and !server_online[server_to_connect.to_i].nil?
+          puts "connecting to #{server_online[server_to_connect.to_i]}"
+          puts
+          puts
+          connect_server server_online[server_to_connect.to_i]
+        elsif server_to_connect.to_i > server_online.length+1
+          puts "No Server sellected"
+          puts
+        else
+          break;
+        end
       end
     end
 
@@ -71,13 +97,11 @@ module Awsssh
         puts "Try `awsssh list_server PROFILE`"
         puts "checking your local ssh config..."
         puts
-        exec "ssh #{hostname}"
-        exit -1
+        connect_server hostname
       else
         puts "start ssh connection to `#{hostname}`..."
         puts
-        exec "ssh #{public_dns}"
-        exit 0
+        connect_server public_dns
       end
     end
 
@@ -139,6 +163,11 @@ module Awsssh
         end
       end
       return nil
+    end
+
+    def connect_server(hostname)
+      exec "ssh #{hostname}"
+      exit 0
     end
   end
 end
