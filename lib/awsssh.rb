@@ -34,7 +34,10 @@ module Awsssh
     method_option :all, :type => :boolean, :aliases => "-a", :default => false, :desc => "Show all Server"
     def list_server(profile)
       credentials = open_credantial_file
-      raise "Profile `#{profile}` not found. Please try `awsssh list_profiles`" if credentials[profile].empty?
+
+      puts "Profile `#{profile}` not found. Try `awsssh list_profiles`" if credentials[profile].empty?
+      exit -1 if credentials[profile].empty?
+
       aws_connection(profile, credentials)
 
       puts "Stacks and instances for profile `#{profile}`".colorize(@text_colors[:infotext])
@@ -56,7 +59,7 @@ module Awsssh
       hostname_parts = hostname.split("-")
       profile = options[:profile] || hostname_parts[0]
       credentials = open_credantial_file
-      puts "Profile `#{profile}` not found. Try `awsssh SERVERNAME --profile PROFILE`" if credentials[profile].empty?
+      puts "Profile `#{profile}` not found. Try `awsssh connect SERVERNAME --profile PROFILE`" if credentials[profile].empty?
       exit -1 if credentials[profile].empty?
 
       aws_connection(profile, credentials)
