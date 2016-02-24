@@ -28,6 +28,5 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency "inifile", "~> 3.0.0", ">= 3.0.0"
   spec.add_runtime_dependency "aws-sdk", "~> 2.2.0", ">= 2.2.0"
   spec.add_runtime_dependency "thor", "~> 0.19.1", ">= 0.19.1"
-  spec.add_runtime_dependency "thor", "~> 0.19.1", ">= 0.19.1"
   spec.add_runtime_dependency "colorize", "~> 0.7.7"
 end
