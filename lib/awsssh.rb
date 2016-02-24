@@ -3,6 +3,8 @@ require "thor"
 require "inifile"
 require "aws-sdk"
 require "colorize"
+require "open-uri"
+require "json"
 
 
 module Awsssh
@@ -18,6 +20,7 @@ module Awsssh
           :stopped => :light_red
           }
         }
+      check_version
     end
 
     desc "list_profiles", "List all your avavible profiles"
@@ -168,6 +171,34 @@ module Awsssh
     def connect_server(hostname)
       exec "ssh #{hostname}"
       exit 0
+    end
+
+    def check_version
+      temp_file = "/tmp/awsssh_version_check"
+      if File.exists?(temp_file)
+        if ((Time.now - File.mtime(temp_file)) / (60 * 60 * 2)).to_i != 0 # check all 2h
+          check = true
+        else
+          check = false
+        end
+      else
+        check = true
+      end
+      if check
+        begin
+          rubygems = JSON.parse(open("https://rubygems.org/api/v1/versions/awsssh/latest.json").read)
+          if rubygems["version"] != VERSION
+            puts "   ############################################".colorize(:red)
+            puts "   # You're using an old version of this gem! #".colorize(:red)
+            puts "   # Run `gem update awsssh`                  #".colorize(:red)
+            puts "   ############################################".colorize(:red)
+            puts
+          end
+        rescue
+        ensure
+          FileUtils.touch(temp_file)
+        end
+      end
     end
   end
 end

@@ -61,6 +61,9 @@ issues:
 [github](https://github.com/sethiele/awsssh)
 
 ## Changelog
+**2016-02-24 - v 3.1.1**
+* [enh] Version Check
+
 **2016-02-24 - v 3.1.0**
 * [enh] Show only online Server
 * [enh] colors in output
