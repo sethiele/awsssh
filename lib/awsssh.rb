@@ -8,8 +8,16 @@ require "json"
 
 
 module Awsssh
+  ##
+  # Main awsssh class
+  # @since 1.0.0
   class Awsssh < Thor
 
+    ##
+    # overwrite initializer
+    # @since 3.0.0
+    # @private
+    #
     def initialize(*args)
       super
       @text_colors = {
@@ -23,6 +31,12 @@ module Awsssh
       check_version
     end
 
+    ##
+    # List all profiles
+    # @since 3.0.0
+    # @example
+    #   awsssh list_profiles
+    #
     desc "list_profiles", "List all your avavible profiles"
     def list_profiles()
       credentials = open_credantial_file
@@ -33,6 +47,15 @@ module Awsssh
       end
     end
 
+    ##
+    # List all server for a profile
+    #
+    # @!method list_server(profile)
+    # @since 3.0.0
+    # @param profile [String] Profile name
+    # @example
+    #   awsssh list_server PROFILE
+    #
     desc "list_server PROFILE", "List all Server for given profile"
     method_option :all, :type => :boolean, :aliases => "-a", :default => false, :desc => "Show all Server"
     def list_server(profile)
@@ -65,23 +88,21 @@ module Awsssh
         end
         puts ""
       end
-      while true
-        print "Would you like to connect to any server directly? Please enter Server number (Enter to exit): "
-        server_to_connect = STDIN.gets.chomp
-        if server_to_connect.to_i != 0 and !server_online[server_to_connect.to_i].nil?
-          puts "connecting to #{server_online[server_to_connect.to_i]}"
-          puts
-          puts
-          connect_server server_online[server_to_connect.to_i]
-        elsif server_to_connect.to_i > server_online.length+1
-          puts "No Server sellected"
-          puts
-        else
-          break;
-        end
-      end
+      select_server(server_online)
     end
 
+    ##
+    # Connect to SERVERNAME
+    #
+    # @!method connect (hostname)
+    # @since 3.0.0
+    # @param hostname [String] Hostname
+    # @param profile [String] Profile name (optional)
+    # @example Without profile
+    #   awsssh connect SERVERNAME
+    # @example With profile
+    #   awsssh connect SERVERNAME --profile PROFILE
+    #
     desc "connect SERVERNAME", "Connect to Hostname"
     method_option :profile, :desc => "specify a profile - see `awsssh list_profiles`"
     def connect (hostname)
@@ -108,13 +129,22 @@ module Awsssh
       end
     end
 
+    ##
+    # Version
+    # @since 3.0.0
+    # @example
+    #   awsssh version
     desc "version", "Version"
     def version
       puts "version #{VERSION}"
     end
 
 
+    ##
+    # Help overwrite
     # @private
+    # @since 3.0.0
+    #
     def help(command = nil, subcommand = false)
      super
      puts "For more information visit https://github.com/sethiele/awsssh"
@@ -124,6 +154,51 @@ module Awsssh
 
 
     private
+
+    ##
+    # Select to connect to a server directly
+    # @since 3.2.0
+    # @param server_list [Sting<Array>] List of all server
+    #
+    def select_server(server_list)
+      while true
+        puts "Would you like to connect to any server directly?"
+        if check_in_tmux
+          puts "Please select server"
+          puts "Select multible server by enter server number comma seperated."
+          print "Server numer(s) (Enter to exit): "
+        else
+          puts "Please select a server"
+          puts "(you could connect to multible server if you run awsssh in tmux)"
+          print "Server numer (Enter to exit): "
+        end
+        server_selection = STDIN.gets.chomp.split(",").map{|n| n.strip.to_i if n.strip.to_i != 0}
+        server_to_connect = server_selection.reject{ |a| a.nil? || a > server_list.length+1}
+        if server_to_connect.length > 1 && check_in_tmux
+          session = "awsssh-connect"
+          `tmux -2 new-session -d -s #{session}`
+          server_to_connect.each_with_index do |server, index|
+            puts "connect to #{server_list[server]}"
+            `tmux send -t #{session} "ssh #{server_list[server]}" ENTER`
+            # `tmux send -t #{session} "ls -la" ENTER`
+            `tmux split-window -t #{session}:.1`
+            `tmux select-layout -t #{session} tiled`
+          end
+          `tmux send -t #{session} "exit" ENTER`
+          `tmux set-window-option -t #{session} synchronize-panes on`
+          `tmux select-window -t #{session}:1`
+          `tmux switch -t #{session}`
+        elsif server_to_connect.length == 1
+          puts "connect one to #{server_list[server_to_connect.first]}"
+          connect_server server_list[server_to_connect.first]
+        else
+          puts "No Server sellected"
+          puts
+          break
+        end
+        exit 0
+      end
+    end
 
     ##
     # open and check credential file
@@ -168,11 +243,20 @@ module Awsssh
       return nil
     end
 
+    ##
+    # connect to server via system ssh
+    # @since 3.1.0
+    # @param hostname [String] Server hostname or ssh conf alias
+    #
     def connect_server(hostname)
       exec "ssh #{hostname}"
       exit 0
     end
 
+    ##
+    # check for updates every 2h and display a message if there is a newer version
+    # @since 3.1.1
+    #
     def check_version
       temp_file = "/tmp/awsssh_version_check"
       if File.exists?(temp_file)
@@ -199,6 +283,14 @@ module Awsssh
           FileUtils.touch(temp_file)
         end
       end
+    end
+
+    ##
+    # Check if is in TMUX env
+    # @since 3.2.0
+    # @return [Boolean] in TMUX or not
+    def check_in_tmux
+      !ENV['TMUX'].nil?
     end
   end
 end

@@ -61,6 +61,9 @@ issues:
 [github](https://github.com/sethiele/awsssh)
 
 ## Changelog
+**2016-02-29 - v 3.2.0.rc1**
+* [enh] Connect to multible Server at once, if tmux is running
+
 **2016-02-24 - v 3.1.1**
 * [enh] Version Check
 
